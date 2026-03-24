@@ -25,8 +25,42 @@ public class RunnerService {
         return runnerRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        String.format("Runner %s not found", id)
+                String.format("Coureur %s introuvable", id)
                 )
         );
     }
-}
+
+    public Runner create(Runner runner)
+    {
+        validateEmail(runner.getEmail());
+        return runnerRepository.save(runner);
+    }
+    public void delete(Long id) {
+        if (!runnerRepository.existsById(id)) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                String.format("Coureur %s introuvable", id)
+            );
+        }
+        runnerRepository.deleteById(id);
+    }
+
+    public Runner update(Long id, Runner runner)
+    {
+        Runner existingRunner = getById(id);
+        validateEmail(runner.getEmail());
+        runner.setId(existingRunner.getId());
+        return runnerRepository.save(runner);
+    }
+
+    private void validateEmail(String email) {
+        if (email == null || !email.contains("@")) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Adresse email invalide"
+            );
+        }
+    }
+ }
+
+    
