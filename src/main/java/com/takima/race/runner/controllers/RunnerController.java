@@ -36,8 +36,9 @@ public class RunnerController {
     }
 
     @PostMapping
-    public Runner create(@RequestBody Runner runner) {
-        return runnerService.create(runner);
+    public ResponseEntity<Runner> create(@RequestBody Runner runner) {
+        Runner created = runnerService.create(runner);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
@@ -45,7 +46,8 @@ public class RunnerController {
     }
 
     @PutMapping("/{id}")
-    public Runner update(@PathVariable Long id, @RequestBody Runner runner) {
-        return runnerService.update(id, runner);
+    public ResponseEntity<Runner> update(@PathVariable Long id, @RequestBody Runner runner) {
+        Runner updated = runnerService.update(id, runner);
+        return ResponseEntity.status(HttpStatus.CREATED).body(updated);
     }
 }

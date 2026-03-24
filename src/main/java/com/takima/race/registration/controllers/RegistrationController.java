@@ -27,11 +27,12 @@ public class RegistrationController {
     }
 
     @PostMapping("/races/{raceId}/registrations")
-    public Registration registerRunner(
+    public ResponseEntity<Registration> registerRunner(
         @PathVariable Long raceId,
         @RequestBody RegistrationRequest request
     ) {
-        return registrationService.registerRunner(raceId, request.runnerId());
+        Registration created = registrationService.registerRunner(raceId, request.runnerId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping("/races/{raceId}/registrations")

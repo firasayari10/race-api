@@ -40,8 +40,9 @@ public class RaceController {
     }
 
     @PostMapping
-    public Race create(@RequestBody Race race) {
-        return raceService.create(race);
+    public ResponseEntity<Race> create(@RequestBody Race race) {
+        Race created = raceService.create(race);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping("/{raceId}/participants/count")
